@@ -9,7 +9,7 @@ import pluginPrettier from 'eslint-plugin-prettier';
 const config = defineConfig([
   ...baseConfig,
   {
-    name: 'formatting',
+    name: 'non-IDE-config',
     files: ['**/*.{js,ts,jsx,tsx}'],
     plugins: {
       prettier: pluginPrettier,

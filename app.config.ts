@@ -7,7 +7,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: 'Kanaflite',
   version: '1.0.0',
   orientation: 'portrait',
-  userInterfaceStyle: 'automatic',
   icon: './assets/kanaflite.png',
   splash: {
     image: './assets/kanaflite.png',
@@ -22,4 +21,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: '#ffffff',
     },
   },
+  ios: {
+    bundleIdentifier: 'com.kanaflite.kanaflite',
+  },
+  plugins: ['react-native-fast-tflite', 'expo-font'],
 });

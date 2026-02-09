@@ -8,19 +8,19 @@ const baseConfig = defineConfig([
   ...expoConfig,
   {
     name: 'global-ignores',
-    ignores: ['node_modules/**', 'babel.config.js', '.expo/**'],
+    ignores: ['node_modules/**', 'babel.config.js', '.expo/**', 'metro.config.js'],
   },
   {
     // disable some expo rules that are not wanted in the project
     // and enable some custom rules only valid for IDEs
-    name: 'linting',
+    name: 'IDE-config',
     files: ['**/*.{js,ts,jsx,tsx}'],
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
       },
       globals: {
-        NodeJS: true,
+        NodeJS: true
       },
     },
     rules: {
@@ -28,7 +28,8 @@ const baseConfig = defineConfig([
       'react-hooks/exhaustive-deps': 'error',
       'prefer-const': 'error',
       'no-undef': 'error',
-      '@typescript-eslint/no-deprecated': 'error',
+      "@typescript-eslint/no-deprecated": "error",
+      "@typescript-eslint/no-require-imports": "off"
     },
   },
 ]);

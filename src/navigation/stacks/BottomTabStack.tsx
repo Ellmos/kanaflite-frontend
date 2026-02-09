@@ -9,8 +9,8 @@ import {
 import { IoniconName } from '@definitions/Icons';
 import { useThemeColors } from '@hooks/useThemeColor';
 import { BottomTabStackParamList } from '@navigation/Types';
-import AccountScreen from '@screens/AccountScreen';
 import HomeScreen from '@screens/HomeScreen';
+import DrawingScreen from '@screens/drawing/DrawingScreen';
 
 const Stack = createBottomTabNavigator<BottomTabStackParamList>();
 
@@ -33,7 +33,7 @@ export default function BottomTabStack() {
 
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Draw"
       screenOptions={{
         headerShown: false,
         tabBarStyle: { paddingHorizontal: 8 },
@@ -47,9 +47,9 @@ export default function BottomTabStack() {
         options={tabBarOptions('Home', 'home-outline', 'home')}
       />
       <Stack.Screen
-        name="Account"
-        component={AccountScreen}
-        options={tabBarOptions('Account', 'person-outline', 'person')}
+        name="Draw"
+        component={DrawingScreen}
+        options={tabBarOptions('Draw', 'brush-outline', 'brush')}
       />
     </Stack.Navigator>
   );

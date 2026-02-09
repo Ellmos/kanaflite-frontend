@@ -168,3 +168,6 @@ fix_*.patch
 .expo
 .env.localdev
 .env.prod
+
+/android
+/ios
