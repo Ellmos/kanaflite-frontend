@@ -67,7 +67,6 @@ export default function Canvas({ onValidateDrawing }: CanvasProps) {
           ref={canvasRef}
           onEnd={registerNewStroke}
           onOK={handleOk}
-          onBegin={() => setCurrStroke((prev) => prev + 1)}
           autoClear={false}
           webStyle={webStyle}
           penColor="#000"

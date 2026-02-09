@@ -10,6 +10,7 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 // ------- Bottom Tab stack -------
 export type BottomTabStackParamList = {
   Home: undefined;
+  Learn: undefined;
   Draw: undefined;
 };
 

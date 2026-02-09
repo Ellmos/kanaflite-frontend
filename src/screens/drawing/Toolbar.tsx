@@ -22,6 +22,7 @@ export default function Toolbar({
   onDraw,
   onErase,
 }: Props) {
+  console.log(currStroke);
   return (
     <View style={styles.toolbar}>
       <IconButton icon="rotate-left" disabled={currStroke <= 0} onPress={onUndo} />

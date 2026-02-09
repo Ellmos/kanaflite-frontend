@@ -11,6 +11,7 @@ import { useThemeColors } from '@hooks/useThemeColor';
 import { BottomTabStackParamList } from '@navigation/Types';
 import DrawingScreen from '@screens/drawing/DrawingScreen';
 import HomeScreen from '@screens/HomeScreen';
+import LearnScreen from '@screens/LearnScreen';
 
 const Stack = createBottomTabNavigator<BottomTabStackParamList>();
 
@@ -45,6 +46,11 @@ export default function BottomTabStack() {
         name="Home"
         component={HomeScreen}
         options={tabBarOptions('Home', 'home-outline', 'home')}
+      />
+      <Stack.Screen
+        name="Learn"
+        component={LearnScreen}
+        options={tabBarOptions('Learn', 'book-outline', 'book')}
       />
       <Stack.Screen
         name="Draw"
