@@ -94,7 +94,6 @@ export default function DrawingScreen() {
     setDrawing(drawing);
 
     const { prediction, confidence } = await runModel(plugin.model!, classmap, drawing);
-    console.log('Predicted class:', prediction, 'with confidence', confidence);
     if (confidence < 0.8) {
       setPrediction('ヽ(｀Д´)ﾉ');
     } else {

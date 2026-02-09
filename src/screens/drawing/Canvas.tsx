@@ -7,6 +7,7 @@ import ActionButton from './ActionButton';
 import Toolbar from './Toolbar';
 
 const CANVAS_SIZE = 300;
+const PEN_SIZE = 6;
 
 type CanvasProps = {
   onValidateDrawing: (drawing: string) => void;
@@ -52,12 +53,12 @@ export default function Canvas({ onValidateDrawing }: CanvasProps) {
         }}
         onDraw={() => {
           canvasRef.current?.draw();
-          canvasRef.current?.changePenSize(9, 9);
+          canvasRef.current?.changePenSize(PEN_SIZE, PEN_SIZE);
           setMode('draw');
         }}
         onErase={() => {
           canvasRef.current?.erase();
-          canvasRef.current?.changePenSize(9, 9);
+          canvasRef.current?.changePenSize(PEN_SIZE + 3, PEN_SIZE + 3);
           setMode('erase');
         }}
       />
@@ -70,8 +71,8 @@ export default function Canvas({ onValidateDrawing }: CanvasProps) {
           autoClear={false}
           webStyle={webStyle}
           penColor="#000"
-          minWidth={9}
-          maxWidth={9}
+          minWidth={PEN_SIZE}
+          maxWidth={PEN_SIZE}
           backgroundColor="transparent"
         />
       </View>
