@@ -9,8 +9,8 @@ import {
 import { IoniconName } from '@definitions/Icons';
 import { useThemeColors } from '@hooks/useThemeColor';
 import { BottomTabStackParamList } from '@navigation/Types';
-import HomeScreen from '@screens/HomeScreen';
 import DrawingScreen from '@screens/drawing/DrawingScreen';
+import HomeScreen from '@screens/HomeScreen';
 
 const Stack = createBottomTabNavigator<BottomTabStackParamList>();
 

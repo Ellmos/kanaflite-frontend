@@ -1,6 +1,7 @@
+import { Buffer } from 'buffer';
+
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import { PNG } from 'pngjs/browser';
-import { Buffer } from 'buffer';
 
 export async function preprocessSignatureForTFLite(
   signatureBase64: string,

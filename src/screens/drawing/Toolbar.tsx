@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+
 import IconButton from './IconButton';
 
 type Props = {
@@ -23,20 +24,12 @@ export default function Toolbar({
 }: Props) {
   return (
     <View style={styles.toolbar}>
-      <IconButton icon="rotate-left" disabled={currStroke <= 0 } onPress={onUndo} />
+      <IconButton icon="rotate-left" disabled={currStroke <= 0} onPress={onUndo} />
       <IconButton icon="rotate-right" disabled={currStroke >= maxStroke} onPress={onRedo} />
 
-      <IconButton
-        icon="paint-brush"
-        selected={mode === 'draw'}
-        onPress={onDraw}
-      />
+      <IconButton icon="paint-brush" selected={mode === 'draw'} onPress={onDraw} />
 
-      <IconButton
-        icon="eraser"
-        selected={mode === 'erase'}
-        onPress={onErase}
-      />
+      <IconButton icon="eraser" selected={mode === 'erase'} onPress={onErase} />
     </View>
   );
 }

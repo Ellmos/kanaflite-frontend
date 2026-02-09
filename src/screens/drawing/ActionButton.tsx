@@ -1,6 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
+
 import { FontAwesome } from '@expo/vector-icons';
+
 import { FontAwesomeName } from '@definitions/Icons';
 
 type Props = {

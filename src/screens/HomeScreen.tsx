@@ -1,7 +1,9 @@
-import { Assets } from '@assets/Assets';
 import { useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+
 import { useTensorflowModel } from 'react-native-fast-tflite';
+
+import { Assets } from '@assets/Assets';
 
 export default function HomeScreen() {
   const plugin = useTensorflowModel(Assets.V1);

@@ -1,6 +1,8 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
+
 import { FontAwesome } from '@expo/vector-icons';
+
 import { FontAwesomeName } from '@definitions/Icons';
 
 type Props = {
@@ -10,7 +12,12 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function IconButton({ icon, onPress, selected: selected = false, disabled = false }: Props) {
+export default function IconButton({
+  icon,
+  onPress,
+  selected: selected = false,
+  disabled = false,
+}: Props) {
   return (
     <TouchableOpacity
       onPress={onPress}

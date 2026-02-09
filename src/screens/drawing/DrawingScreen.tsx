@@ -1,21 +1,104 @@
 import React, { useRef, useState } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
+
+import { useTensorflowModel } from 'react-native-fast-tflite';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SignatureView, { SignatureViewRef } from 'react-native-signature-canvas';
 
-import Toolbar from './Toolbar';
-import ActionButton from './ActionButton';
+import { Assets } from '@assets/Assets';
 import { preprocessSignatureForTFLite } from 'services/ImageProcessor';
+
+import ActionButton from './ActionButton';
+import Toolbar from './Toolbar';
 
 const CANVAS_SIZE = 300;
 
+const classmap = [
+  'あ',
+  'い',
+  'う',
+  'え',
+  'お',
+  'か',
+  'き',
+  'く',
+  'け',
+  'こ',
+  'さ',
+  'し',
+  'す',
+  'せ',
+  'そ',
+  'た',
+  'ち',
+  'つ',
+  'て',
+  'と',
+  'な',
+  'に',
+  'ぬ',
+  'ね',
+  'の',
+  'は',
+  'ひ',
+  'ふ',
+  'へ',
+  'ほ',
+  'ま',
+  'み',
+  'む',
+  'め',
+  'も',
+  'や',
+  'ゆ',
+  'よ',
+  'ら',
+  'り',
+  'る',
+  'れ',
+  'ろ',
+  'わ',
+  'を',
+  'ん',
+  'が',
+  'ぎ',
+  'ぐ',
+  'げ',
+  'ご',
+  'ざ',
+  'じ',
+  'ず',
+  'ぜ',
+  'ぞ',
+  'だ',
+  'ぢ',
+  'づ',
+  'で',
+  'ど',
+  'ば',
+  'び',
+  'ぶ',
+  'べ',
+  'ぼ',
+  'ぱ',
+  'ぴ',
+  'ぷ',
+  'ぺ',
+  'ぽ',
+  'Ø',
+];
+
 export default function DrawingScreen() {
+  const plugin = useTensorflowModel(Assets.V1);
+
   const canvasRef = useRef<SignatureViewRef>(null);
 
   const [signature, setSignature] = useState<string | null>(null);
   const [mode, setMode] = useState<'draw' | 'erase'>('draw');
   const [currStroke, setCurrStroke] = useState(0);
   const [maxStroke, setMaxStroke] = useState(0);
+
+  const [prediction, setPrediction] = useState<string | null>(null);
 
   const handleSend = () => {
     canvasRef.current?.readSignature();
@@ -40,13 +123,20 @@ export default function DrawingScreen() {
     try {
       const imageSize = 50; // or whatever your model expects
 
-      const { input, shape } = await preprocessSignatureForTFLite(signature, imageSize);
+      const { input } = await preprocessSignatureForTFLite(signature, imageSize);
 
-      // console.log('TFLite input:', input);
-      // console.log('Shape:', shape);
+      if (plugin.state !== 'loaded') {
+        console.error('Model not loaded yet');
+        return;
+      }
 
-      // Pass to TFLite here
-      // await model.run([{ data: input, shape, type: 'float32' }]);
+      console.log(input);
+      const a = await plugin.model.run([input]);
+      console.log('TFLite output:', a[0]);
+
+      const indexMax = a[0].indexOf(Math.max(...a[0]));
+      console.log('Predicted class:', classmap[indexMax], 'with confidence', a[0][indexMax]);
+      setPrediction(classmap[indexMax]);
     } catch (err) {
       console.error(err);
     }
@@ -58,6 +148,12 @@ export default function DrawingScreen() {
     <SafeAreaView style={styles.container}>
       {signature && (
         <Image source={{ uri: signature }} style={styles.preview} resizeMode="contain" />
+      )}
+
+      {prediction && (
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ fontSize: 24 }}>Prediction: {prediction}</Text>
+        </View>
       )}
 
       <Toolbar
@@ -74,7 +170,7 @@ export default function DrawingScreen() {
         }}
         onDraw={() => {
           canvasRef.current?.draw();
-          canvasRef.current?.changePenSize(3, 3);
+          canvasRef.current?.changePenSize(9, 9);
           setMode('draw');
         }}
         onErase={() => {
@@ -93,8 +189,8 @@ export default function DrawingScreen() {
           autoClear={false}
           webStyle={webStyle}
           penColor="#000"
-          minWidth={3}
-          maxWidth={3}
+          minWidth={9}
+          maxWidth={9}
           backgroundColor="transparent"
         />
       </View>
