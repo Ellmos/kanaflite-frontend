@@ -1,4 +1,6 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 
 // ...ParamList is the list of all the screens in the navigator
 // and the types of the props used by the screen
@@ -11,8 +13,21 @@ import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 export type BottomTabStackParamList = {
   Home: undefined;
   Learn: undefined;
-  Draw: undefined;
+  PracticeStack: undefined;
 };
 
 export type BottomTabStackScreenProps<T extends keyof BottomTabStackParamList> =
   BottomTabScreenProps<BottomTabStackParamList, T>;
+
+// ------- Practice stack -------
+export type PracticeStackParamList = {
+  Practice: undefined;
+  Draw: undefined;
+  MCQ: undefined;
+  TimeChallenge: undefined;
+};
+
+export type PracticeStackScreenProps<T extends keyof PracticeStackParamList> = CompositeScreenProps<
+  StackScreenProps<PracticeStackParamList, T>,
+  BottomTabStackScreenProps<keyof BottomTabStackParamList>
+>;

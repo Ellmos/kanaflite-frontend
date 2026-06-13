@@ -11,10 +11,7 @@ export type Palette = {
   text: string;
   textMuted: string;
 
-  highlight: string;
-
   border: string;
-  borderMuted: string;
 
   primary: string;
   secondary: string;
@@ -27,45 +24,39 @@ export type Palette = {
 
 export const Colors: Themes = {
   light: {
-    bgDark: 'hsl(220 100% 94%)',
-    bg: 'hsl(220 100% 99%)',
-    bgLight: 'hsl(220 100% 100%)',
+    bgDark: 'hsl(0 0% 90%)',
+    bg: 'hsl(0 0% 95%)',
+    bgLight: 'hsl(0 0% 100%)',
 
-    text: 'hsl(248 100% 11%)',
-    textMuted: 'hsl(222 61% 34%)',
-
-    highlight: 'hsl(220 100% 100%)',
+    text: 'hsl(0 0% 5%)',
+    textMuted: 'hsl(0 0% 30%)',
 
     border: 'hsl(221 54% 58%)',
-    borderMuted: 'hsl(221 79% 70%)',
 
-    primary: 'hsl(222 61% 34%)',
-    secondary: 'hsl(42 100% 13%)',
+    primary: 'hsl(246 56% 41%)',
+    secondary: 'hsl(48 100% 9%)',
 
-    danger: 'hsl(7 51% 41%)',
-    warning: 'hsl(53 100% 15%)',
-    success: 'hsl(161 100% 17%)',
-    info: 'hsl(217 54% 44%)',
+    danger: 'hsl(5 77% 40%)',
+    warning: 'hsl(51 100% 12%)',
+    success: 'hsl(160 100% 11%)',
+    info: 'hsl(217 78% 44%)',
   },
   dark: {
-    bgDark: 'oklch(0.1 0.065 264)',
-    bg: 'oklch(0.15 0.065 264)',
-    bgLight: 'oklch(0.2 0.065 264)',
+    bgDark: 'hsl(0 0% 0%)',
+    bg: 'hsl(0 0% 5%)',
+    bgLight: 'hsl(0 0% 10%)',
 
-    text: 'oklch(0.96 0.1 264)',
-    textMuted: 'oklch(0.76 0.1 264)',
+    text: 'hsl(0 0% 95%)',
+    textMuted: 'hsl(0 0% 70%)',
 
-    highlight: 'oklch(0.5 0.13 264)',
+    border: 'hsl(0 0% 30%)',
 
-    border: 'oklch(0.4 0.13 264)',
-    borderMuted: 'oklch(0.3 0.13 264)',
+    primary: 'hsl(237 100% 87%)',
+    secondary: 'hsl(53 100% 29%)',
 
-    primary: 'oklch(0.76 0.13 264)',
-    secondary: 'oklch(0.76 0.13 84)',
-
-    danger: 'oklch(0.7 0.13 30)',
-    warning: 'oklch(0.7 0.13 100)',
-    success: 'oklch(0.7 0.13 160)',
-    info: 'oklch(0.7 0.13 260)',
+    danger: 'hsl(7 94% 66%)',
+    warning: 'hsl(53 100% 24%)',
+    success: 'hsl(163 100% 26%)',
+    info: 'hsl(217 100% 70%)',
   },
 };

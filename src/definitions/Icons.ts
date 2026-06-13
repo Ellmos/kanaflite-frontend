@@ -1,7 +1,14 @@
 import React from 'react';
 
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, FontAwesome, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 
-export type IoniconName = React.ComponentProps<typeof Ionicons>['name'];
+export const iconLibraries = {
+  Ionicons,
+  FontAwesome,
+  MaterialCommunityIcons,
+  Feather,
+};
 
-export type FontAwesomeName = React.ComponentProps<typeof FontAwesome>['name'];
+export type IconLibraries = keyof typeof iconLibraries;
+
+export type IconName = React.ComponentProps<(typeof iconLibraries)[IconLibraries]>['name'];

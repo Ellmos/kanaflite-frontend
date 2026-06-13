@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
 
 import { loadTensorflowModel, TensorflowModel } from 'react-native-fast-tflite';
@@ -8,9 +8,6 @@ import { Assets } from '@assets/Assets';
 import { runModel } from 'services/tflite';
 
 import Canvas from './Canvas';
-import { Asset } from 'expo-asset';
-import { File } from 'expo-file-system';
-import Kanas from '@constants/kanas';
 
 export default function DrawingScreen() {
   const [model, setModel] = useState<TensorflowModel | null>(null);
@@ -20,55 +17,18 @@ export default function DrawingScreen() {
   const [prediction, setPrediction] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const [goal, setGoal] = useState<string>('');
-
-  const kanas = useMemo(
-    () =>
-      Kanas.getKanas({
-        withDakuten: true,
-        withHandakuten: true,
-        inverted: false,
-      }),
-    [],
-  );
-
-  const getRandomGoal = useCallback(() => {
-    if (classmap.length <= 0 || !kanas) return;
-
-    console.log(kanas);
-
-    const randomGoal = classmap[Math.floor(Math.random() * classmap.length)];
-    const kana = kanas.get(randomGoal);
-    if (!kana) {
-      throw new Error(`Kana not found for class ${randomGoal}`);
-    }
-    setGoal(kana);
-  }, [classmap, kanas]);
-
-  useEffect(() => {
-    getRandomGoal();
-  }, [getRandomGoal]);
-
   useEffect(() => {
     async function loadModel() {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1));
 
-      const model = await loadTensorflowModel(Assets.V1model);
-      setModel(model);
+      loadTensorflowModel(Assets.V1model).then(setModel);
     }
 
     async function loadClassmap() {
-      const asset = Asset.fromModule(Assets.V1classmap);
-      await asset.downloadAsync();
-      if (!asset.localUri) {
-        throw new Error('Failed to load classmap asset');
-      }
-
-      const file = new File(asset.localUri);
-      const text = await file.text();
-
-      const lines = text.split('\n');
+      const response = await fetch(Assets.V1classmap);
+      const text = await response.text();
+      const lines = text.split('\n').filter((line) => line.trim() !== '');
       setClassmap(lines);
     }
 
@@ -96,10 +56,6 @@ export default function DrawingScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ marginBottom: 16 }}>
-        <Text style={{ fontSize: 24 }}>Draw</Text>
-        <Text style={{ fontSize: 16 }}>{goal}</Text>
-      </View>
       {drawing && <Image source={{ uri: drawing }} style={styles.preview} resizeMode="contain" />}
 
       {prediction && (
