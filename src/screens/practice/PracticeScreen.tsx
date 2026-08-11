@@ -1,8 +1,11 @@
+import { Text, View, StyleSheet } from 'react-native';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { Palette } from '@constants/colors';
 import { useThemeColors } from '@hooks/useThemeColor';
 import { PracticeStackScreenProps } from '@navigation/Types';
-import { Text, View, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 import SelectModeButton from './SelectModeButton';
 
 export default function PracticeScreen({ navigation }: PracticeStackScreenProps<'Practice'>) {

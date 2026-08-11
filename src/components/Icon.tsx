@@ -1,6 +1,7 @@
 import React from 'react';
-import { IconName, IconLibraries, iconLibraries } from '@definitions/Icons';
 import { TextProps } from 'react-native';
+
+import { IconName, IconLibraries, iconLibraries } from '@definitions/Icons';
 
 function getIconComponent(icon: IconName) {
   for (const library in iconLibraries) {

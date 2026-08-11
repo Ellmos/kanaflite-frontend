@@ -1,9 +1,11 @@
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+
+import Color from 'color';
+
 import { Palette } from '@constants/colors';
 import { IconName } from '@definitions/Icons';
 import { useThemeColors } from '@hooks/useThemeColor';
 import Icon from 'components/Icon';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-import Color from 'color';
 
 type Props = {
   title: string;

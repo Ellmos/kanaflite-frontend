@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { BottomTabStackScreenProps, PracticeStackParamList } from '@navigation/Types';
 import { createStackNavigator } from '@react-navigation/stack';
-import MCQScreen from '@screens/MCQ';
+
+import { BottomTabStackScreenProps, PracticeStackParamList } from '@navigation/Types';
 import DrawingScreen from '@screens/drawing/DrawingScreen';
+import MCQScreen from '@screens/MCQ';
 import PracticeScreen from '@screens/practice/PracticeScreen';
 import TimeChallengeScreen from '@screens/TimeChallenge';
 

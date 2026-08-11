@@ -5,12 +5,13 @@ import {
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
 
+import { IconName } from '@definitions/Icons';
 import { useThemeColors } from '@hooks/useThemeColor';
 import { BottomTabStackParamList } from '@navigation/Types';
 import HomeScreen from '@screens/HomeScreen';
 import LearnScreen from '@screens/LearnScreen';
-import { IconName } from '@definitions/Icons';
 import Icon from 'components/Icon';
+
 import PracticeStack from './PracticeStack';
 
 const Stack = createBottomTabNavigator<BottomTabStackParamList>();
@@ -45,7 +46,7 @@ export default function BottomTabStack() {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={tabBarOptions('Home', 'home-outline', 'home')}
+        options={tabBarOptions('Homed', 'home-outline', 'home')}
       />
       <Stack.Screen
         name="PracticeStack"

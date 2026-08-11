@@ -1,16 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
 
+import { Asset } from 'expo-asset';
+import { File } from 'expo-file-system';
 import { loadTensorflowModel, TensorflowModel } from 'react-native-fast-tflite';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Assets } from '@assets/Assets';
+import Kanas from '@constants/kanas';
 import { runModel } from 'services/tflite';
 
 import Canvas from './Canvas';
-import { Asset } from 'expo-asset';
-import { File } from 'expo-file-system';
-import Kanas from '@constants/kanas';
 
 export default function DrawingScreen() {
   const [model, setModel] = useState<TensorflowModel | null>(null);
@@ -37,8 +37,17 @@ export default function DrawingScreen() {
 
     console.log(kanas);
 
-    const randomGoal = classmap[Math.floor(Math.random() * classmap.length)];
+    const randomGoal = 'か';
     const kana = kanas.get(randomGoal);
+
+    // console.log(randomGoal, randomGoal.length);
+    // console.log([...randomGoal].map(c => c.codePointAt(0).toString(16)));
+    //
+    // for (const key of kanas.keys()) {
+    //   if (key.includes("か")) {
+    //     console.log("Map key:", key, [...key].map(c => c.codePointAt(0).toString(16)));
+    //   }
+    // }
     if (!kana) {
       throw new Error(`Kana not found for class ${randomGoal}`);
     }

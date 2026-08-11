@@ -9,11 +9,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: 'portrait',
   icon: './assets/kanaflite.png',
   buildCacheProvider: 'eas',
-  splash: {
-    image: './assets/kanaflite.png',
-    resizeMode: 'contain',
-    backgroundColor: '#ffffff',
-  },
+  // splash: {
+  //   image: './assets/kanaflite.png',
+  //   resizeMode: 'contain',
+  //   backgroundColor: '#ffffff',
+  // },
   android: {
     package: 'com.kanaflite.kanaflite',
     adaptiveIcon: {
@@ -29,5 +29,5 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: 'ebb22ca5-3d72-477e-8b61-58867b7c61d3',
     },
   },
-  plugins: ['react-native-fast-tflite', 'expo-font'],
+  plugins: ['react-native-fast-tflite', 'expo-font', 'expo-asset', 'expo-status-bar'],
 });
