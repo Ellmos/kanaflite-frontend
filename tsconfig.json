@@ -2,16 +2,36 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    "noEmitOnError": true,
+    "noEmit": true,
     "allowImportingTsExtensions": true,
-    "baseUrl": "./src",
     "paths": {
-      "@assets/*": ["../assets/*"],
-      "@constants/*": ["constants/*"],
-      "@definitions/*": ["definitions/*"],
-      "@hooks/*": ["hooks/*"],
-      "@navigation/*": ["navigation/*"],
-      "@screens/*": ["screens/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@assets/*": [
+        "./src/assets/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
+      ],
+      "@navigation/*": [
+        "./src/navigation/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@type/*": [
+        "./src/types/*"
+      ]
     }
   }
 }

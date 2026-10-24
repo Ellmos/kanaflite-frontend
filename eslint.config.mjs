@@ -1,8 +1,7 @@
-// Config used by the IDE
-// Disable some warnings and errors
-
-import { defineConfig } from 'eslint-define-config';
 import expoConfig from 'eslint-config-expo/flat.js';
+import { defineConfig } from 'eslint-define-config';
+import pluginPrettier from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-plugin-prettier/recommended';
 
 const baseConfig = defineConfig([
   ...expoConfig,
@@ -11,27 +10,49 @@ const baseConfig = defineConfig([
     ignores: ['node_modules/**', 'babel.config.js', '.expo/**', 'metro.config.js'],
   },
   {
-    // disable some expo rules that are not wanted in the project
-    // and enable some custom rules only valid for IDEs
-    name: 'IDE-config',
-    files: ['**/*.{js,ts,jsx,tsx}'],
+    files: ['**/*.{js,ts,jsx,tsx,mjs}'],
+    plugins: {
+      prettier: pluginPrettier,
+    },
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
       },
       globals: {
-        NodeJS: true
+        NodeJS: true,
       },
     },
     rules: {
       eqeqeq: 'off',
       'react-hooks/exhaustive-deps': 'error',
       'prefer-const': 'error',
-      'no-undef': 'error',
-      "@typescript-eslint/no-deprecated": "error",
-      "@typescript-eslint/no-require-imports": "off"
+
+      'import/order': [
+        'warn',
+        {
+          groups: ['builtin', 'external', 'internal'],
+          pathGroups: [
+            { pattern: '@(react|react-native)', group: 'external', position: 'before' },
+            { pattern: '@src/**', group: 'internal' },
+          ],
+          pathGroupsExcludedImportTypes: ['internal', 'react'],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
+
+      'prettier/prettier': [
+        'error',
+        {
+          singleQuote: true,
+          jsxSingleQuote: true,
+          printWidth: 120,
+        },
+      ],
     },
   },
+  // keep last to override all other configs
+  prettierConfig,
 ]);
 
 export default defineConfig(baseConfig);

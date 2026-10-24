@@ -191,11 +191,7 @@ export default class Kanas {
     return new Map([...map.entries()].map(([k, v]) => [v, k]));
   }
 
-  static getHiraganas({
-    withDakuten,
-    withHandakuten,
-    inverted,
-  }: GetKanasOptions): Map<string, string> {
+  static getHiraganas({ withDakuten, withHandakuten, inverted }: GetKanasOptions): Map<string, string> {
     const result = new Map(this.hiraganaBase);
 
     if (withDakuten) this.hiraganaDakuten.forEach((v, k) => result.set(k, v));
@@ -205,11 +201,7 @@ export default class Kanas {
     return inverted ? this.invert(result) : result;
   }
 
-  static getKatakanas({
-    withDakuten,
-    withHandakuten,
-    inverted,
-  }: GetKanasOptions): Map<string, string> {
+  static getKatakanas({ withDakuten, withHandakuten, inverted }: GetKanasOptions): Map<string, string> {
     const result = new Map(this.katakanaBase);
 
     if (withDakuten) this.katakanaDakuten.forEach((v, k) => result.set(k, v));
@@ -222,13 +214,9 @@ export default class Kanas {
   static getKanas({ withDakuten, withHandakuten, inverted }: GetKanasOptions): Map<string, string> {
     const result = new Map();
 
-    this.getHiraganas({ withDakuten, withHandakuten, inverted: false }).forEach((v, k) =>
-      result.set(k, v),
-    );
+    this.getHiraganas({ withDakuten, withHandakuten, inverted: false }).forEach((v, k) => result.set(k, v));
 
-    this.getKatakanas({ withDakuten, withHandakuten, inverted: false }).forEach((v, k) =>
-      result.set(k, v),
-    );
+    this.getKatakanas({ withDakuten, withHandakuten, inverted: false }).forEach((v, k) => result.set(k, v));
 
     return inverted ? this.invert(result) : result;
   }

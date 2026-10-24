@@ -1,5 +1,4 @@
 import { ConfigContext, ExpoConfig } from 'expo/config';
-import 'ts-node/register';
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
@@ -7,7 +6,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: 'kanaflite',
   version: '1.0.0',
   orientation: 'portrait',
-  icon: './assets/kanaflite.png',
+  userInterfaceStyle: 'automatic',
+  icon: './src/assets/images/kanaflite.png',
   buildCacheProvider: 'eas',
   // splash: {
   //   image: './assets/kanaflite.png',
@@ -17,7 +17,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     package: 'com.kanaflite.kanaflite',
     adaptiveIcon: {
-      foregroundImage: './assets/kanaflite.png',
+      foregroundImage: './src/assets/images/kanaflite.png',
       backgroundColor: '#ffffff',
     },
   },
@@ -29,5 +29,5 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: 'ebb22ca5-3d72-477e-8b61-58867b7c61d3',
     },
   },
-  plugins: ['react-native-fast-tflite', 'expo-font', 'expo-asset', 'expo-status-bar'],
+  plugins: ['react-native-fast-tflite', 'expo-font', 'expo-asset', 'expo-status-bar', 'expo-system-ui'],
 });

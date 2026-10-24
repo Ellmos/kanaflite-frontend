@@ -1,26 +1,15 @@
-import React from 'react';
+import { createBottomTabNavigator, BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
+import { withUnistyles } from 'react-native-unistyles';
 
-import {
-  BottomTabNavigationOptions,
-  createBottomTabNavigator,
-} from '@react-navigation/bottom-tabs';
+import Icon from '@/components/base/Icon';
+import HomeScreen from '@/components/pages/HomeScreen';
+import LearnScreen from '@/components/pages/LearnScreen';
+import { IconName } from '@/types/icons';
 
-import { IconName } from '@definitions/Icons';
-import { useThemeColors } from '@hooks/useThemeColor';
-import { BottomTabStackParamList } from '@navigation/Types';
-import HomeScreen from '@screens/HomeScreen';
-import LearnScreen from '@screens/LearnScreen';
-import Icon from 'components/Icon';
-
+import { BottomTabStackParamList } from '../types';
 import PracticeStack from './PracticeStack';
 
-const Stack = createBottomTabNavigator<BottomTabStackParamList>();
-
-function tabBarOptions(
-  tabBarLabel: string,
-  icon: IconName,
-  iconFocused: IconName,
-): BottomTabNavigationOptions {
+function tabBarOptions(tabBarLabel: string, icon: IconName, iconFocused: IconName): BottomTabNavigationOptions {
   return {
     tabBarLabel,
     tabBarIcon: ({ focused, color, size }) => {
@@ -30,34 +19,35 @@ function tabBarOptions(
   };
 }
 
-export default function BottomTabStack() {
-  const colors = useThemeColors();
+const Stack = createBottomTabNavigator<BottomTabStackParamList>();
+const UniNavigator = withUnistyles(Stack.Navigator);
 
+const BottomTabStack = () => {
   return (
-    <Stack.Navigator
-      initialRouteName="PracticeStack"
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: { paddingHorizontal: 8 },
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.secondary,
-        animation: 'shift',
-      }}>
+    <UniNavigator
+      uniProps={(theme) => ({
+        initialRouteName: 'PracticeStack',
+        screenOptions: {
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: theme.colors.background.default,
+            paddingHorizontal: theme.spacings.xs,
+          },
+          tabBarActiveTintColor: theme.colors.primary,
+          tabBarInactiveTintColor: theme.colors.secondary,
+          animation: 'none',
+        },
+      })}
+    >
+      <Stack.Screen name={'Home'} component={HomeScreen} options={tabBarOptions('Home', 'home-outline', 'home')} />
       <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={tabBarOptions('Homed', 'home-outline', 'home')}
-      />
-      <Stack.Screen
-        name="PracticeStack"
+        name={'PracticeStack'}
         component={PracticeStack}
         options={tabBarOptions('Practice', 'brush-outline', 'brush')}
       />
-      <Stack.Screen
-        name="Learn"
-        component={LearnScreen}
-        options={tabBarOptions('Learn', 'book-outline', 'book')}
-      />
-    </Stack.Navigator>
+      <Stack.Screen name={'Learn'} component={LearnScreen} options={tabBarOptions('Learn', 'book-outline', 'book')} />
+    </UniNavigator>
   );
-}
+};
+
+export default BottomTabStack;

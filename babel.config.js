@@ -8,15 +8,24 @@ module.exports = function(api) {
         {
           root: ['./src'],
           alias: {
-            '@assets': './assets',
+            '@': './src',
+            '@assets': './src/assets',
+            '@components': './src/components',
             '@constants': './src/constants',
-            '@definitions': './src/definitions',
             '@hooks': './src/hooks',
+            '@lib': './src/lib',
             '@navigation': './src/navigation',
-            '@screens': './src/screens',
+            '@styles': './src/styles',
+            '@type': './src/types',
           },
         },
       ],
+      [
+        'react-native-unistyles/plugin',
+        {
+          root: 'src'
+        }
+      ]
     ],
   };
 };
