@@ -1,10 +1,10 @@
 import { createBottomTabNavigator, BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { withUnistyles } from 'react-native-unistyles';
 
-import Icon from '@/components/base/Icon';
-import HomeScreen from '@/components/pages/HomeScreen';
-import LearnScreen from '@/components/pages/LearnScreen';
-import { IconName } from '@/types/icons';
+import Icon from '@components/base/Icon';
+import HomeScreen from '@components/pages/HomeScreen';
+import LearnScreen from '@components/pages/LearnScreen';
+import { IconName } from '@type/icons';
 
 import { BottomTabStackParamList } from '../types';
 import PracticeStack from './PracticeStack';

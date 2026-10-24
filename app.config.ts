@@ -29,5 +29,17 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: 'ebb22ca5-3d72-477e-8b61-58867b7c61d3',
     },
   },
-  plugins: ['react-native-fast-tflite', 'expo-font', 'expo-asset', 'expo-status-bar', 'expo-system-ui'],
+  plugins: [
+    [
+      'react-native-fast-tflite',
+      {
+        enableAndroidGpuLibraries: true,
+        enableCoreMLDelegate: true,
+      },
+    ],
+    'expo-font',
+    'expo-asset',
+    'expo-status-bar',
+    'expo-system-ui',
+  ],
 });

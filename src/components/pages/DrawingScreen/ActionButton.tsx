@@ -1,7 +1,7 @@
 import { TouchableOpacity, StyleSheet } from 'react-native';
 
-import Icon from '@/components/base/Icon';
-import { IconName } from '@/types/icons';
+import Icon from '@components/base/Icon';
+import { IconName } from '@type/icons';
 
 type ActionButtonProps = {
   icon: IconName;

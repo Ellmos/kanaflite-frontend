@@ -3,12 +3,10 @@ export const Images = {
 };
 
 export const TfliteModels = {
-  V1: {
-    // model: require('./models/V1/V1.tflite'),
-    // classmap: require('./models/V1/V1.classmap'),
-  },
-  lightweight: {
-    model: require('./models/lightweight/V1.tflite'),
-    classmap: require('./models/lightweight/V1.classmap'),
+  Hiraganas: {
+    AllDakuten: {
+      model: require('./models/Hiraganas/AllDakuten/V1.tflite'),
+      classmap: require('./models/Hiraganas/AllDakuten/V1.classmap'),
+    },
   },
 };

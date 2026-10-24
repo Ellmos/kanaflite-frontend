@@ -5672,7 +5672,7 @@ __metadata:
     prettier: "npm:^3.5.3"
     react: "npm:19.2.3"
     react-native: "npm:0.86.3"
-    react-native-fast-tflite: "npm:^2.0.0"
+    react-native-fast-tflite: "npm:^3.0.0"
     react-native-gesture-handler: "npm:~2.32.0"
     react-native-nitro-modules: "npm:0.37.1"
     react-native-safe-area-context: "npm:~5.7.0"
@@ -7356,13 +7356,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-fast-tflite@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "react-native-fast-tflite@npm:2.0.0"
+"react-native-fast-tflite@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "react-native-fast-tflite@npm:3.0.1"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/6650243a6915cb8ef99b8d6649a26255fb555d78b74ea45e0a7b542ba8c077a910f7a8f5b6c373b7f5c68e8d259991f97a35901e221f881e91063e0fa4e387d9
+    react-native-nitro-modules: "*"
+  checksum: 10c0/b7815dffa0ad6137905ba7b0b02eacfdd6eecb15cbca21462a903d1b324cddb3e26306880e9e6b5619fd44ed9715049db3fbe11cdbdd3f00d91dfce3734626e5
   languageName: node
   linkType: hard
 

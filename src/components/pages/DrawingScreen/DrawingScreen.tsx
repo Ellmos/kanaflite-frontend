@@ -5,9 +5,9 @@ import { useAssets } from 'expo-asset';
 import { TensorflowModel, loadTensorflowModel } from 'react-native-fast-tflite';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TfliteModels } from '@/assets';
-import Typography from '@/components/base/Typography';
-import { runModel } from '@/lib/tflite/tflite';
+import { TfliteModels } from '@assets/index';
+import Typography from '@components/base/Typography';
+import { runTfliteInference } from '@lib/tflite';
 
 import Canvas from './Canvas';
 import DrawingScreenStyles from './DrawingScreen.css';
@@ -20,7 +20,7 @@ const DrawingScreen = () => {
   const [prediction, setPrediction] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const [assets, error] = useAssets([TfliteModels.lightweight.classmap]);
+  const [assets, error] = useAssets([TfliteModels.Hiraganas.AllDakuten.classmap]);
 
   useEffect(() => {
     if (error) {
@@ -34,10 +34,10 @@ const DrawingScreen = () => {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 1));
 
-      loadTensorflowModel(TfliteModels.lightweight.model).then(setModel);
+      loadTensorflowModel(TfliteModels.Hiraganas.AllDakuten.model, []).then(setModel);
     }
 
-    async function loadClassmap() {
+    const loadClassmap = async () => {
       if (!assets) return;
       const classmapAsset = assets[0];
       if (!classmapAsset) return;
@@ -46,26 +46,22 @@ const DrawingScreen = () => {
       const text = await response.text();
       const lines = text.split('\n').filter((line) => line.trim() !== '');
       setClassmap(lines);
-    }
+    };
 
     Promise.all([loadModel(), loadClassmap()]).finally(() => setLoading(false));
   }, [assets]);
 
-  async function onValidateDrawing(drawing: string) {
+  const onValidateDrawing = async (drawing: string) => {
     setDrawing(drawing);
 
-    console.log('drawing:', drawing);
-    console.log('model:', model);
-    console.log('classmap:', classmap);
-    // const { prediction, confidence } = await runModel(model!, classmap, drawing);
-    // console.log('confidence:', confidence);
-    // console.log('prediction:', prediction);
-    // if (confidence < 0.8) {
-    //   setPrediction('ヽ(｀Д´)ﾉ');
-    // } else {
-    //   setPrediction(prediction);
-    // }
-  }
+    const { prediction, confidence } = await runTfliteInference(model!, classmap, drawing);
+    console.log('confidence:', confidence, 'prediction:', prediction);
+    if (confidence < 0.8) {
+      setPrediction('ヽ(｀Д´)ﾉ');
+    } else {
+      setPrediction(prediction);
+    }
+  };
 
   console.log('prediction:', prediction);
 
@@ -79,10 +75,14 @@ const DrawingScreen = () => {
 
   return (
     <SafeAreaView style={DrawingScreenStyles.container}>
-      {drawing && <Image source={{ uri: drawing }} style={DrawingScreenStyles.preview} resizeMode='contain' />}
+      {drawing && (
+        <View style={{ backgroundColor: 'white' }}>
+          <Image source={{ uri: drawing }} style={DrawingScreenStyles.preview} resizeMode='contain' />
+        </View>
+      )}
 
       {prediction && (
-        <View style={{ marginBottom: 16 }}>
+        <View style={{ height: 40 }}>
           <Typography style={{ fontSize: 24 }}>Prediction: {prediction}</Typography>
         </View>
       )}

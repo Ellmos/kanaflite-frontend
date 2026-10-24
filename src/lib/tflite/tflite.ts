@@ -6,7 +6,7 @@ import { TensorflowModel } from 'react-native-fast-tflite';
 
 const IMAGE_SIZE = 50;
 
-function pngToGrayscale(png: PNG): Float32Array {
+const pngToGrayscale = (png: PNG) => {
   const { width, height, data } = png;
   const grayscale = new Float32Array(width * height);
 
@@ -19,9 +19,9 @@ function pngToGrayscale(png: PNG): Float32Array {
   }
 
   return grayscale;
-}
+};
 
-async function prepareImageForModel(signatureBase64: string): Promise<Float32Array> {
+const prepareImageForModel = async (signatureBase64: string) => {
   // Resize image
   const imageRef = await ImageManipulator.manipulate(signatureBase64)
     .resize({
@@ -45,22 +45,28 @@ async function prepareImageForModel(signatureBase64: string): Promise<Float32Arr
 
   // Convert to grayscale
   return pngToGrayscale(png);
-}
+};
 
-export type ModelOutput = {
+type ModelOutput = {
   prediction: string;
   confidence: number | bigint;
 };
 
-export async function runModel(model: TensorflowModel, classmap: string[], drawing: string): Promise<ModelOutput> {
+export const runTfliteInference = async (
+  model: TensorflowModel,
+  classmap: string[],
+  drawing: string,
+): Promise<ModelOutput> => {
   const input = await prepareImageForModel(drawing);
-  const output = await model.run([input]);
+
+  const out = await model.run([input.buffer]);
+  const output = new Float32Array(out[0]);
 
   let max: number | bigint = -Infinity;
   let maxIndex = -1;
-  for (let i = 0; i < output[0].length; i++) {
-    if (output[0][i] > max) {
-      max = output[0][i];
+  for (let i = 0; i < output.length; i++) {
+    if (output[i] > max) {
+      max = output[i];
       maxIndex = i;
     }
   }
@@ -69,4 +75,4 @@ export async function runModel(model: TensorflowModel, classmap: string[], drawi
     prediction: classmap[maxIndex],
     confidence: max,
   };
-}
+};

@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 
-import { Images } from '@/assets';
+import { Images } from '@assets/index';
 import AppLayout from '@components/AppLayout';
 import SplashScreen from '@components/pages/SplashScreen';
 

@@ -2,8 +2,8 @@ import { Text, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import IconizedButton from '@/components/base/IconizedButton';
-import { PracticeStackScreenProps } from '@/navigation/types';
+import IconizedButton from '@components/base/IconizedButton';
+import { PracticeStackScreenProps } from '@navigation/types';
 
 import PracticeScreenStyles from './PracticeScreen.css';
 
