@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ActivityIndicator, Image, View } from 'react-native';
 
 import { useAssets } from 'expo-asset';
@@ -7,17 +7,29 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TfliteModels } from '@assets/index';
 import Typography from '@components/base/Typography';
+import Kanas from '@constants/kanas';
 import { runTfliteInference } from '@lib/tflite';
+import { useAppSelector } from '@store/hooks';
+import { practiceSelectionSelector } from '@store/slices/practice';
+import { randomInArray } from '@utils/array';
 
 import Canvas from './Canvas';
 import DrawingScreenStyles from './DrawingScreen.css';
 
 const DrawingScreen = () => {
+  const selection = useAppSelector(practiceSelectionSelector);
+  const getNextTarget = useCallback(() => {
+    return randomInArray(selection);
+  }, [selection]);
+
+  const [target, setTarget] = useState<string>(getNextTarget);
+
   const [model, setModel] = useState<TensorflowModel | null>(null);
   const [classmap, setClassmap] = useState<string[]>([]);
   const [drawing, setDrawing] = useState<string | null>(null);
 
   const [prediction, setPrediction] = useState<string | null>(null);
+  const [expected, setExpected] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const [assets, error] = useAssets([TfliteModels.Hiraganas.AllDakuten.classmap]);
@@ -61,9 +73,10 @@ const DrawingScreen = () => {
     } else {
       setPrediction(prediction);
     }
-  };
 
-  console.log('prediction:', prediction);
+    setExpected(target);
+    setTarget(getNextTarget());
+  };
 
   if (loading) {
     return (
@@ -73,11 +86,19 @@ const DrawingScreen = () => {
     );
   }
 
+  const targetLatin = Kanas.getLatinFromKana(target);
+
   return (
     <SafeAreaView style={DrawingScreenStyles.container}>
-      {drawing && (
-        <View style={{ backgroundColor: 'white' }}>
-          <Image source={{ uri: drawing }} style={DrawingScreenStyles.preview} resizeMode='contain' />
+      {target && (
+        <View style={{ height: 40, marginBottom: 20 }}>
+          <Typography style={{ fontSize: 24 }}>Target: {targetLatin}</Typography>
+        </View>
+      )}
+
+      {expected && (
+        <View style={{ height: 40 }}>
+          <Typography style={{ fontSize: 24 }}>Expected: {expected}</Typography>
         </View>
       )}
 

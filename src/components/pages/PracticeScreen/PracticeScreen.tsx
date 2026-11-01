@@ -2,7 +2,7 @@ import { Text, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import IconizedButton from '@components/base/IconizedButton';
+import ButtonWithIcon from '@components/base/ButtonWithIcon';
 import { PracticeStackScreenProps } from '@navigation/types';
 
 import PracticeScreenStyles from './PracticeScreen.css';
@@ -15,21 +15,21 @@ export default function PracticeScreen({ navigation }: PracticeStackScreenProps<
         <Text style={PracticeScreenStyles.subtitle}>Practice 1 character</Text>
       </View>
 
-      <IconizedButton
+      <ButtonWithIcon
         title='Drawing'
         subtitle='Practice your writing skills'
         iconName='pen-tool'
         iconColor={'royalblue'}
         onPress={() => navigation.navigate('Draw')}
       />
-      <IconizedButton
+      <ButtonWithIcon
         title='Multiple Choice'
         subtitle='Find the correct answer'
         iconName='check-circle'
         iconColor={'purple'}
         onPress={() => navigation.navigate('MCQ')}
       />
-      <IconizedButton
+      <ButtonWithIcon
         title='Timed Challenge'
         subtitle='Beat the clock'
         iconName='clock'

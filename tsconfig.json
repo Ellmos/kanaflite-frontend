@@ -23,11 +23,17 @@
       "@navigation/*": [
         "./src/navigation/*"
       ],
+      "@store/*": [
+        "./src/store/*"
+      ],
       "@styles/*": [
         "./src/styles/*"
       ],
       "@type/*": [
         "./src/types/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
       ]
     }
   }

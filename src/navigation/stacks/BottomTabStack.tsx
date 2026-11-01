@@ -33,8 +33,8 @@ const BottomTabStack = () => {
             backgroundColor: theme.colors.background.default,
             paddingHorizontal: theme.spacings.xs,
           },
-          tabBarActiveTintColor: theme.colors.primary,
-          tabBarInactiveTintColor: theme.colors.secondary,
+          tabBarActiveTintColor: theme.colors.text.default,
+          tabBarInactiveTintColor: theme.colors.text.muted,
           animation: 'none',
         },
       })}

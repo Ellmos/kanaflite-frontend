@@ -1,8 +1,10 @@
 export type GetKanasOptions = {
   withDakuten: boolean;
   withHandakuten: boolean;
-  inverted: boolean;
+  inverted?: boolean;
 };
+
+export type KanaMap = Map<string, string>;
 
 export default class Kanas {
   static alphabetOrder = [
@@ -25,7 +27,7 @@ export default class Kanas {
   ];
 
   // ======================== HIRAGANAS ========================
-  static hiraganaBase = new Map([
+  static hiraganaBase: KanaMap = new Map([
     ['あ', 'a'],
     ['い', 'i'],
     ['う', 'u'],
@@ -74,7 +76,7 @@ export default class Kanas {
     ['ん', 'n'],
   ]);
 
-  static hiraganaDakuten = new Map([
+  static hiraganaDakuten: KanaMap = new Map([
     ['が', 'ga'],
     ['ぎ', 'gi'],
     ['ぐ', 'gu'],
@@ -97,7 +99,7 @@ export default class Kanas {
     ['ぼ', 'bo'],
   ]);
 
-  static hiraganaHandakuten = new Map([
+  static hiraganaHandakuten: KanaMap = new Map([
     ['ぱ', 'pa'],
     ['ぴ', 'pi'],
     ['ぷ', 'pu'],
@@ -106,7 +108,7 @@ export default class Kanas {
   ]);
 
   // ======================== KATAKANAS ========================
-  static katakanaBase = new Map([
+  static katakanaBase: KanaMap = new Map([
     ['ア', 'a'],
     ['イ', 'i'],
     ['ウ', 'u'],
@@ -155,7 +157,7 @@ export default class Kanas {
     ['ン', 'n'],
   ]);
 
-  static katakanaDakuten = new Map([
+  static katakanaDakuten: KanaMap = new Map([
     ['ガ', 'ga'],
     ['ギ', 'gi'],
     ['グ', 'gu'],
@@ -178,7 +180,7 @@ export default class Kanas {
     ['ボ', 'bo'],
   ]);
 
-  static katakanaHandakuten = new Map([
+  static katakanaHandakuten: KanaMap = new Map([
     ['パ', 'pa'],
     ['ピ', 'pi'],
     ['プ', 'pu'],
@@ -186,12 +188,19 @@ export default class Kanas {
     ['ポ', 'po'],
   ]);
 
+  // ======================== MAPPING ========================
+  private static kanaToLatin = this.getKanas({ withDakuten: true, withHandakuten: true });
+
+  public static getLatinFromKana = (kana: string) => {
+    return this.kanaToLatin.get(kana);
+  };
+
   // ======================== METHODS ========================
-  private static invert(map: Map<string, string>): Map<string, string> {
+  private static invert(map: Map<string, string>): KanaMap {
     return new Map([...map.entries()].map(([k, v]) => [v, k]));
   }
 
-  static getHiraganas({ withDakuten, withHandakuten, inverted }: GetKanasOptions): Map<string, string> {
+  static getHiraganas({ withDakuten, withHandakuten, inverted }: GetKanasOptions): KanaMap {
     const result = new Map(this.hiraganaBase);
 
     if (withDakuten) this.hiraganaDakuten.forEach((v, k) => result.set(k, v));
@@ -201,7 +210,7 @@ export default class Kanas {
     return inverted ? this.invert(result) : result;
   }
 
-  static getKatakanas({ withDakuten, withHandakuten, inverted }: GetKanasOptions): Map<string, string> {
+  static getKatakanas({ withDakuten, withHandakuten, inverted }: GetKanasOptions): KanaMap {
     const result = new Map(this.katakanaBase);
 
     if (withDakuten) this.katakanaDakuten.forEach((v, k) => result.set(k, v));
@@ -211,7 +220,7 @@ export default class Kanas {
     return inverted ? this.invert(result) : result;
   }
 
-  static getKanas({ withDakuten, withHandakuten, inverted }: GetKanasOptions): Map<string, string> {
+  static getKanas({ withDakuten, withHandakuten, inverted }: GetKanasOptions): KanaMap {
     const result = new Map();
 
     this.getHiraganas({ withDakuten, withHandakuten, inverted: false }).forEach((v, k) => result.set(k, v));

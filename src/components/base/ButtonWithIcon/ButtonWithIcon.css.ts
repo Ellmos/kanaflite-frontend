@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native-unistyles';
 
-const IconizedButtonStyles = StyleSheet.create((theme) => ({
+const ButtonWithIconStyles = StyleSheet.create((theme) => ({
   wrapper: {
     backgroundColor: theme.colors.background.light,
     padding: 16,
@@ -25,4 +25,4 @@ const IconizedButtonStyles = StyleSheet.create((theme) => ({
   },
 }));
 
-export default IconizedButtonStyles;
+export default ButtonWithIconStyles;
