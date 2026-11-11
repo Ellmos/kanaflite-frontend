@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TfliteModels } from '@assets/index';
 import Typography from '@components/base/Typography';
+import Canvas from '@components/business/Canvas';
 import Kanas from '@constants/kanas';
 import { runTfliteInference } from '@lib/tflite';
 import { openModalRequested } from '@modal/core/slice';
@@ -15,7 +16,6 @@ import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { selectPractiveSelection } from '@store/slices/practice';
 import { randomInArray } from '@utils/array';
 
-import Canvas from './Canvas';
 import DrawingScreenStyles from './DrawingScreen.css';
 
 const DrawingScreen = () => {

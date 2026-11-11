@@ -45,7 +45,6 @@ const Canvas = ({ onValidateDrawing }: CanvasProps) => {
           minWidth={PEN_SIZE}
           maxWidth={PEN_SIZE}
           backgroundColor='#000'
-          // style={{ backgroundColor: 'red' }}
         />
       </View>
 

@@ -4238,7 +4238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-asset@npm:~57.0.21":
+"expo-asset@npm:~57.0.20, expo-asset@npm:~57.0.21":
   version: 57.0.21
   resolution: "expo-asset@npm:57.0.21"
   dependencies:
@@ -4282,7 +4282,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-dev-client@npm:~57.0.21":
+"expo-dev-client@npm:~57.0.20":
   version: 57.0.21
   resolution: "expo-dev-client@npm:57.0.21"
   dependencies:
@@ -4373,7 +4373,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-image-manipulator@npm:~57.0.22":
+"expo-image-manipulator@npm:~57.0.21":
   version: 57.0.22
   resolution: "expo-image-manipulator@npm:57.0.22"
   dependencies:
@@ -4497,7 +4497,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo@npm:~57.0.32":
+"expo@npm:~57.0.31":
   version: 57.0.32
   resolution: "expo@npm:57.0.32"
   dependencies:
@@ -5760,14 +5760,14 @@ __metadata:
     eslint-config-prettier: "npm:^10.1.8"
     eslint-define-config: "npm:^2.1.0"
     eslint-plugin-prettier: "npm:^5.5.7"
-    expo: "npm:~57.0.32"
-    expo-asset: "npm:~57.0.21"
+    expo: "npm:~57.0.31"
+    expo-asset: "npm:~57.0.20"
     expo-atlas: "npm:^0.5.0"
-    expo-dev-client: "npm:~57.0.21"
+    expo-dev-client: "npm:~57.0.20"
     expo-doctor: "npm:^1.17.14"
     expo-file-system: "npm:~57.0.7"
     expo-font: "npm:~57.0.4"
-    expo-image-manipulator: "npm:~57.0.22"
+    expo-image-manipulator: "npm:~57.0.21"
     expo-status-bar: "npm:~57.0.1"
     expo-system-ui: "npm:~57.0.4"
     lefthook: "npm:^1.12.2"
