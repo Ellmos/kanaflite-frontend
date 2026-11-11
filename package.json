@@ -20,12 +20,12 @@
     "base64-js": "^1.5.1",
     "buffer": "^6.0.3",
     "color": "^5.0.3",
-    "expo": "~57.0.31",
-    "expo-asset": "~57.0.20",
-    "expo-dev-client": "~57.0.20",
+    "expo": "~57.0.32",
+    "expo-asset": "~57.0.21",
+    "expo-dev-client": "~57.0.21",
     "expo-file-system": "~57.0.7",
     "expo-font": "~57.0.4",
-    "expo-image-manipulator": "~57.0.21",
+    "expo-image-manipulator": "~57.0.22",
     "expo-status-bar": "~57.0.1",
     "expo-system-ui": "~57.0.4",
     "pngjs": "^7.0.0",
@@ -33,6 +33,7 @@
     "react-native": "0.86.3",
     "react-native-fast-tflite": "^3.0.0",
     "react-native-gesture-handler": "~2.32.0",
+    "react-native-modal": "^14.0.0-rc.1",
     "react-native-nitro-modules": "0.37.1",
     "react-native-safe-area-context": "~5.7.0",
     "react-native-screens": "~4.26.0",
@@ -52,11 +53,21 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-define-config": "^2.1.0",
     "eslint-plugin-prettier": "^5.5.7",
+    "expo-atlas": "^0.5.0",
     "expo-doctor": "^1.17.14",
     "lefthook": "^1.12.2",
     "prettier": "^3.5.3",
     "typescript": "~6.0.3"
   },
   "private": true,
-  "packageManager": "yarn@4.18.1"
+  "packageManager": "yarn@4.18.1",
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-native-fast-tflite"
+        ]
+      }
+    }
+  }
 }

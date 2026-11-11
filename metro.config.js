@@ -1,8 +1,7 @@
-import { getDefaultConfig } from 'expo/metro-config';
+import { getDefaultConfig } from 'expo/metro-config.js';
 
-const expoConfig = getDefaultConfig(__dirname);
+const expoConfig = getDefaultConfig(process.cwd());
 
-/** @type {import('expo/metro-config').MetroConfig} */
 const config = {
   ...expoConfig,
   resolver: {

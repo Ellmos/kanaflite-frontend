@@ -5,8 +5,8 @@ export const Images = {
 export const TfliteModels = {
   Hiraganas: {
     AllDakuten: {
-      model: require('./models/Hiraganas/AllDakuten/V1.tflite'),
-      classmap: require('./models/Hiraganas/AllDakuten/V1.classmap'),
+      model: require('./models/Hiraganas/AllDakuten/V1tflite.tflite'),
+      classmap: require('./models/Hiraganas/AllDakuten/V1classmap.classmap'),
     },
   },
 };

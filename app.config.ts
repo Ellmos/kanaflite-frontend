@@ -8,7 +8,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: 'portrait',
   userInterfaceStyle: 'automatic',
   icon: './src/assets/images/kanaflite.png',
-  buildCacheProvider: 'eas',
   // splash: {
   //   image: './assets/kanaflite.png',
   //   resizeMode: 'contain',

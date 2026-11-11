@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import modalReducer from '@modal/core/slice';
+
 import practiceReducer from './slices/practice';
 
 export const store = configureStore({
   reducer: {
     practice: practiceReducer,
+    modal: modalReducer,
   },
 });
 

@@ -20,6 +20,9 @@
       "@lib/*": [
         "./src/lib/*"
       ],
+      "@modal/*": [
+        "./src/modules/modal/*"
+      ],
       "@navigation/*": [
         "./src/navigation/*"
       ],

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { ActivityIndicator, Image, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import { useAssets } from 'expo-asset';
 import { TensorflowModel, loadTensorflowModel } from 'react-native-fast-tflite';
@@ -9,15 +9,18 @@ import { TfliteModels } from '@assets/index';
 import Typography from '@components/base/Typography';
 import Kanas from '@constants/kanas';
 import { runTfliteInference } from '@lib/tflite';
-import { useAppSelector } from '@store/hooks';
-import { practiceSelectionSelector } from '@store/slices/practice';
+import { openModalRequested } from '@modal/core/slice';
+import { ModalNotification, ModalVariant } from '@modal/type';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { selectPractiveSelection } from '@store/slices/practice';
 import { randomInArray } from '@utils/array';
 
 import Canvas from './Canvas';
 import DrawingScreenStyles from './DrawingScreen.css';
 
 const DrawingScreen = () => {
-  const selection = useAppSelector(practiceSelectionSelector);
+  const selection = useAppSelector(selectPractiveSelection);
+
   const getNextTarget = useCallback(() => {
     return randomInArray(selection);
   }, [selection]);
@@ -26,62 +29,153 @@ const DrawingScreen = () => {
 
   const [model, setModel] = useState<TensorflowModel | null>(null);
   const [classmap, setClassmap] = useState<string[]>([]);
-  const [drawing, setDrawing] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const [prediction, setPrediction] = useState<string | null>(null);
-  const [expected, setExpected] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const [assets, error] = useAssets([TfliteModels.Hiraganas.AllDakuten.classmap]);
-
-  useEffect(() => {
-    if (error) {
-      console.error('Error loading assets:', error);
-      return;
-    }
-  }, [error, assets]);
+  // Load both assets through Expo Asset
+  const [assets, assetError] = useAssets([
+    TfliteModels.Hiraganas.AllDakuten.classmap,
+    TfliteModels.Hiraganas.AllDakuten.model,
+  ]);
 
   useEffect(() => {
-    async function loadModel() {
-      setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1));
+    let cancelled = false;
 
-      loadTensorflowModel(TfliteModels.Hiraganas.AllDakuten.model, []).then(setModel);
+    async function initialize() {
+      try {
+        setLoading(true);
+        setErrorMessage(null);
+
+        // Check Expo Asset errors
+        if (assetError) {
+          throw new Error(`Asset loading error: ${assetError.message}`);
+        }
+
+        if (!assets) {
+          return;
+        }
+
+        const classmapAsset = assets[0];
+        const modelAsset = assets[1];
+
+        // Validate classmap asset
+        if (!classmapAsset?.localUri) {
+          throw new Error('The classmap file is unavailable.');
+        }
+
+        // Validate TensorFlow model asset
+        if (!modelAsset?.localUri) {
+          throw new Error('The TensorFlow model file is unavailable.');
+        }
+
+        // Load classmap
+        const response = await fetch(classmapAsset.localUri);
+
+        if (!response.ok) {
+          throw new Error('Unable to retrieve the classmap.');
+        }
+
+        const text = await response.text();
+
+        const lines = text
+          .split('\n')
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0);
+
+        if (lines.length === 0) {
+          throw new Error('The classmap is empty.');
+        }
+
+        // Load TensorFlow Lite model using its local file URI
+        const loadedModel = await loadTensorflowModel({ url: modelAsset.localUri }, []);
+
+        if (!loadedModel) {
+          throw new Error('Unable to load the TensorFlow Lite model.');
+        }
+
+        if (!cancelled) {
+          setClassmap(lines);
+          setModel(loadedModel);
+        }
+      } catch (error) {
+        console.error('Initialization error:', error);
+
+        if (!cancelled) {
+          setErrorMessage(error instanceof Error ? error.message : 'An unknown error occurred.');
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
     }
 
-    const loadClassmap = async () => {
-      if (!assets) return;
-      const classmapAsset = assets[0];
-      if (!classmapAsset) return;
+    initialize();
 
-      const response = await fetch(classmapAsset.localUri!);
-      const text = await response.text();
-      const lines = text.split('\n').filter((line) => line.trim() !== '');
-      setClassmap(lines);
+    return () => {
+      cancelled = true;
     };
-
-    Promise.all([loadModel(), loadClassmap()]).finally(() => setLoading(false));
-  }, [assets]);
+  }, [assets, assetError]);
 
   const onValidateDrawing = async (drawing: string) => {
-    setDrawing(drawing);
+    try {
+      if (!model) {
+        throw new Error('The TensorFlow model is unavailable.');
+      }
 
-    const { prediction, confidence } = await runTfliteInference(model!, classmap, drawing);
-    console.log('confidence:', confidence, 'prediction:', prediction);
-    if (confidence < 0.8) {
-      setPrediction('ヽ(｀Д´)ﾉ');
-    } else {
-      setPrediction(prediction);
+      if (classmap.length === 0) {
+        throw new Error('The classmap is unavailable.');
+      }
+
+      const { prediction, confidence } = await runTfliteInference(model, classmap, drawing);
+
+      console.log('confidence:', confidence, 'prediction:', prediction);
+
+      const currentTarget = target;
+      setTarget(getNextTarget());
+
+      const modalNotification: ModalNotification = {
+        variant: ModalVariant.DrawingResult,
+        payload: {
+          target: currentTarget,
+          predicted: prediction,
+        },
+      };
+
+      dispatch(openModalRequested(modalNotification));
+    } catch (error) {
+      console.error('Inference error:', error);
+
+      setErrorMessage(error instanceof Error ? error.message : 'An error occurred during drawing recognition.');
     }
-
-    setExpected(target);
-    setTarget(getNextTarget());
   };
 
   if (loading) {
     return (
       <SafeAreaView style={DrawingScreenStyles.container}>
         <ActivityIndicator size='large' />
+        <Typography>Chargement du modèle...</Typography>
+      </SafeAreaView>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <SafeAreaView style={DrawingScreenStyles.container}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 24,
+          }}
+        >
+          <Typography style={{ fontSize: 22, marginBottom: 16 }}>Une erreur est survenue</Typography>
+
+          <Typography style={{ textAlign: 'center', color: 'red' }}>{errorMessage}</Typography>
+        </View>
       </SafeAreaView>
     );
   }
@@ -90,23 +184,9 @@ const DrawingScreen = () => {
 
   return (
     <SafeAreaView style={DrawingScreenStyles.container}>
-      {target && (
-        <View style={{ height: 40, marginBottom: 20 }}>
-          <Typography style={{ fontSize: 24 }}>Target: {targetLatin}</Typography>
-        </View>
-      )}
-
-      {expected && (
-        <View style={{ height: 40 }}>
-          <Typography style={{ fontSize: 24 }}>Expected: {expected}</Typography>
-        </View>
-      )}
-
-      {prediction && (
-        <View style={{ height: 40 }}>
-          <Typography style={{ fontSize: 24 }}>Prediction: {prediction}</Typography>
-        </View>
-      )}
+      <View style={{ height: 40, marginTop: 40 }}>
+        <Typography style={{ fontSize: 24 }}>Target: {targetLatin}</Typography>
+      </View>
 
       <Canvas onValidateDrawing={onValidateDrawing} />
     </SafeAreaView>

@@ -16,14 +16,20 @@ type CommomTheme = {
     xl: number;
   };
   borderRadius: {
+    /** 4px */
     sm: number;
+    /** 8px */
     md: number;
+    /** 16px */
     lg: number;
   };
   fonts: {
     sizes: {
+      /** 12px */
       sm: number;
+      /** 16px */
       md: number;
+      /** 20px */
       lg: number;
     };
   };

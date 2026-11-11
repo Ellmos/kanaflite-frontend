@@ -22,7 +22,7 @@ const practiceSlice = createSlice({
 });
 
 const practiceStateSelector = (state: RootState) => state.practice;
-export const practiceSelectionSelector = (state: RootState) => practiceStateSelector(state).selection;
+export const selectPractiveSelection = (state: RootState) => practiceStateSelector(state).selection;
 
 export const { selectionUpdated } = practiceSlice.actions;
 export default practiceSlice.reducer;
